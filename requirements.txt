@@ -1,0 +1,10 @@
+streamlit
+pandas
+numpy
+streamlit-folium
+folium
+plotly
+seaborn
+matplotlib
+scikit-learn
+uuid
