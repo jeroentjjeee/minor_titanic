@@ -595,39 +595,39 @@ elif keuze == 'Visualisaties':
         m = folium.Map(location = [45.7833, -41.9167],zoom_start=4)  
         markers = [
             ([41.7267, -49.9483], '''<b>Schipwrak</b><br>
-            Aantal slachtoffers: 424 ''' ,'shipwreck.png'),
-            ([41.7833, -49.9167], '''<b>Ijsberg</b>''','iceberg.png'),
+            Aantal slachtoffers: 424 ''' ,'shipwreck.jpg'),
+            ([41.7833, -49.9167], '''<b>Ijsberg</b>''','iceberg.jpg'),
             ([50.8965, -1.3968], '''<b>Southampton</b><br>
             Aantal bijgekomen passagiers: 646<br>
             Gemiddelde fare: $27.08<br>
             Meest voorkomende klasse: 3<br>
-            Gemiddelde leeftijd: 29.2 jaar''', 'port.png'),
+            Gemiddelde leeftijd: 29.2 jaar''', 'port.jpg'),
             ([49.6469, -1.6222], '''<b>Cherbourg</b><br>
             Aantal bijgekomen passagiers: 168<br>
             Gemiddelde fare: $59.95<br>
             Meest voorkomende klasse: 1<br>
-            Gemiddelde leeftijd: 30.2 jaar''', 'port.png'),
+            Gemiddelde leeftijd: 30.2 jaar''', 'port.jpg'),
             ([51.85, -8.30], '''<b>Queenstown</b><br>
             Aantal bijgekomen passagiers: 77<br>
             Gemiddelde fare: $13.28<br>
             Meest voorkomende klasse: 3<br>
-            Gemiddelde leeftijd: 28 jaar''', 'port.png'),
+            Gemiddelde leeftijd: 28 jaar''', 'port.jpg'),
             ([40.6677, -74.0407], '''<b>New York</b><br>
             Geplande aankomstlocatie Titanic<br>
-            Aankomstlocatie overlevenden''', 'port.png'),
+            Aankomstlocatie overlevenden''', 'port.jpg'),
             ([41.1972, -61.9945], '''<b>Reddingsboot</b><br>
             Overlevenden gered: 467<br>
             Gebracht naar: New York
-            ''', 'lifeboat.png'),
+            ''', 'lifeboat.jpg'),
             ([44.65, -63.57],'''<b>Halifax</b><br>
-            Aankomstlocatie slachtoffers''', 'port.png'),
+            Aankomstlocatie slachtoffers''', 'port.jpg'),
             ([43.1884,-56.7592],'''<b>Vervoer slachtoffers</b><br>
-            Aantal slachtoffers: 424''', 'ship.png' ),
+            Aantal slachtoffers: 424''', 'ship.jpg' ),
             ([46.8167,-29.1084], '''<b>Titanic</b><br>
             Aantal passagiers: 889<br>
             Gemiddelde fare: 32.2<br>
             Meest voorkomende klasse: 3<br>
-            Gemiddelde leeftijd: 29.4''', 'pngimg.com - titanic_PNG31.png')
+            Gemiddelde leeftijd: 29.4''', 'pngimg.com - titanic_PNG31.jpg')
         ]
         v_crash = [[50.8965, -1.3968], [49.6469, -1.6222], [51.85, -8.30], [41.7833, -49.9167]  ]
         n_crash = [[41.7833, -49.9167],[40.6677, -74.0407]]
