@@ -27,7 +27,7 @@ if 'df' not in st.session_state:
 
     train = train.drop(['Cabin', 'Ticket'], axis = 1)
     train['Nlength'] = train['Name'].str.len()
-    train["status"] = np.where(train["Survived"] == 1, "Overleeft", "Overleden")
+    train["status"] = np.where(train["Survived"] == 1, "Overleefd", "Overleden")
     train['Famsize'] = train['SibSp'] + train['Parch']
     dfna = train.isna().sum().reset_index()
     dfna.columns = ['Kolom', 'Aantal missende waarden']
@@ -74,7 +74,7 @@ def plot_histogram(df, kolommen):
 
     kleuren_dict = {
     'status': {
-        'Overleeft': 'limegreen',
+        'Overleefd': 'limegreen',
         'Overleden': 'red'
     },
     'Pclass': {
@@ -161,7 +161,7 @@ if keuze == 'Voorpagina':
         
         - **De variabelen**  
         - **De visualisaties van de variabelen**  
-        - **Ons voorspellingsmodel**
+        - **Het voorspellingsmodel**
         """)
 
         st.markdown(
@@ -192,7 +192,9 @@ if keuze == 'Voorpagina':
         st.markdown("""Eerste keer:  
                     - Het model is gemaakt door keuzes op basis van visualisaties.  
                     Tweede keer:  
-                    - Er wordt gebruik gemaakt van een complexer model.""")
+                    - Er wordt gebruik gemaakt van complexere modellen.""")
+        st.markdown("""Hoewel we complexere modellen hebben gebruikt, geeft dit slechtere resultaten dan absolute keuzes.  
+                    Absolute keuzes gaf een kaggle score van 77.03% en de hoogste score met een complex model was 65.55%.""")
     with tab3:
         st.title('Eerste keer')
         st.header('1. Dataverkenning')
@@ -286,12 +288,13 @@ if keuze == 'Voorpagina':
         plt.close()
 
         st.header('3. Model')
-        st.markdown("""Het model is gemaakt door te kijken naar welke variabelen en aspecten daarvan correleren met de overlevingskans.  
-                    Dit zijn de klasse, gender en leeftijd variabelen.  
-                    Bij deze variabelen kijken we naar de volgende aspecten:  
-                    - **Leeftijd**: Als de passagier Jonger dan 10 dan overleven ze.  
-                    - **Klasse**: Als passagiers met klasse 3 reizen overleven ze het niet.    
-                    - **Gender**: Als de passagier een vrouw is overleven ze.  
+        st.markdown("""Het model is gemaakt door te kijken naar welke variabelen en aspecten daarvan correleren met de overlevingskans.    
+                    Dit zijn de klasse, gender en leeftijd variabelen.    
+                    Bij deze variabelen kijken we naar de volgende aspecten:    
+                    - **Leeftijd**: Als de passagier Jonger dan 10 is, dan overleven ze.    
+                    - **Leeftijd**: Alse de passagire ouder dan 65 is, dan overleven ze het niet.    
+                    - **Klasse**: Als passagiers met klasse 3 reizen overleven ze het niet.      
+                    - **Gender**: Als de passagier een vrouw is, dan overleven ze.    
                     In deze volgorde werkt het model en dit geeft een score op kaggle van 77.03%""")
 
 
@@ -335,7 +338,7 @@ elif keuze == 'Variabelen':
     st.markdown("""
     Hieronder kun je de verdeling van de variabelen zien.
     In het dropdown menu kan de variabele die je wil zien gekozen worden.""")
-    plot_histogram(df, ['status', 'Pclass', 'Sex', 'SibSp', 'Parch', 'Fare', 'Embarked', 'Age', 'Famsize'])
+    plot_histogram(df, ['status', 'Pclass', 'Sex', 'SibSp', 'Parch', 'Fare', 'Embarked', 'Age', 'Famsize', 'Nlength'])
     
 
 
@@ -346,15 +349,10 @@ elif keuze == 'Visualisaties':
     with tab1:
         st.title('2. Visualisaties')
         st.header('2.1 Variabelen gecombineerd met de overlevingskans')
-        palette = {
-    'Overleden': "red",      # Niet overleefd
-    'Overleeft': "lime"      # Overleefd
-    }
-
     
         palette = {
             'Overleden': "red",      
-            'Overleeft': "lime"      
+            'Overleefd': "lime"      
         }
         kleuren = ["lime", "red"]
 
@@ -366,7 +364,7 @@ elif keuze == 'Visualisaties':
             y="Percentage",
             color="status",
             color_discrete_sequence=kleuren,
-            category_orders={"status": ["Overleeft", "Overleden"]},
+            category_orders={"status": ["Overleefd", "Overleden"]},
             barmode="group",
             opacity=1.0
         )
@@ -382,11 +380,11 @@ elif keuze == 'Visualisaties':
             y="Percentage",
             color="status",
             color_discrete_sequence=kleuren,
-            category_orders={"status": ["Overleeft", "Overleden"]},
+            category_orders={"status": ["Overleefd", "Overleden"]},
             barmode="group",
             opacity=1.0
         )
-        fig2.update_layout(title = {'text':'Overlevings en overlijdingskans passagiers per geslacht','x': 0.5, 'xanchor': 'center' },
+        fig2.update_layout(title = {'text':'Overlevings- en overlijdingskans passagiers per geslacht','x': 0.5, 'xanchor': 'center' },
                            xaxis_title="Geslacht", yaxis_title="Percentage (%)")
         st.plotly_chart(fig2)
 
@@ -398,7 +396,7 @@ elif keuze == 'Visualisaties':
             y="Percentage",
             color="status",
             color_discrete_sequence=kleuren,
-            category_orders={"status": ["Overleeft", "Overleden"]},
+            category_orders={"status": ["Overleefd", "Overleden"]},
             barmode="group",
             opacity=1.0
         )
@@ -407,8 +405,8 @@ elif keuze == 'Visualisaties':
         ticktext=["Cherbourg", "Queenstown", "Southampton"]
         )
 
-        fig3.update_layout(title = {'text':'Overlevings en overlijdingskans passagiers per opstaplocatie','x': 0.5, 'xanchor': 'center' },
-                           xaxis_title="Opstap locatie", yaxis_title="Percentage (%)")
+        fig3.update_layout(title = {'text':'Overlevings- en overlijdingskans passagiers per opstaplocatie','x': 0.5, 'xanchor': 'center' },
+                           xaxis_title="Opstaplocatie", yaxis_title="Percentage (%)")
         st.plotly_chart(fig3)
 
         # 4️⃣ Passagiers per aantal broers/zussen
@@ -419,12 +417,12 @@ elif keuze == 'Visualisaties':
             y="Percentage",
             color="status",
             color_discrete_sequence=kleuren,
-            category_orders={"status": ["Overleeft", "Overleden"]},
+            category_orders={"status": ["Overleefd", "Overleden"]},
             barmode="group",
             opacity=1.0
         )
-        fig4.update_layout(title = {'text':'Overlevings en overlijdingskans passagiers per aantal broers en zussen aan boord','x': 0.5, 'xanchor': 'center' },
-                           xaxis_title="Aantal broers en zussen", yaxis_title="Percentage (%)")
+        fig4.update_layout(title = {'text':'Overlevings- en overlijdingskans passagiers per aantal broers en zussen aan boord','x': 0.5, 'xanchor': 'center' },
+                           xaxis_title="Aantal broers,zussen en echtgenoten", yaxis_title="Percentage (%)")
         st.plotly_chart(fig4)
 
         # 5️⃣ Passagiers per aantal ouders/kinderen
@@ -435,7 +433,7 @@ elif keuze == 'Visualisaties':
             y="Percentage",
             color="status",
             color_discrete_sequence=kleuren,
-            category_orders={"status": ["Overleeft", "Overleden"]},
+            category_orders={"status": ["Overleefd", "Overleden"]},
             title="Overlevings en overlijdingskans passagiers per aantal ouders en kinderen aan boord",
             barmode="group",
             opacity=1.0
@@ -450,7 +448,7 @@ elif keuze == 'Visualisaties':
             y="Percentage",
             color="status",
             color_discrete_sequence=kleuren,
-            category_orders={"status": ["Overleeft", "Overleden"]},
+            category_orders={"status": ["Overleefd", "Overleden"]},
             
             barmode="group",
             opacity=1.0
@@ -484,7 +482,7 @@ elif keuze == 'Visualisaties':
             x=xk,
             y=yk,
             color='status',
-            color_discrete_map={'Overleeft': '#32CD32', 'Overleden': '#FF0000'},  # 👈 kleur op basis van status
+            color_discrete_map={'Overleefd': '#32CD32', 'Overleden': '#FF0000'},  # 👈 kleur op basis van status
             log_x=logx,
             log_y=logy
         )
@@ -514,9 +512,9 @@ elif keuze == 'Visualisaties':
         st.markdown(
         """Verdeling van een gekozen variabele afhankelijk van ander gekozen variabele.  
         In de bovenste dropdownmenus kan links de variabele waarop gefilterd word gekozen en rechts op welke waarde.  
-        In het dropdownmenu eronder kan de variabele gekozen worden waarvan de verdelin laten zien word  """)           
+        In het dropdownmenu eronder kan de variabele gekozen worden waarvan de verdeling laten zien word  """)           
 
-        c = ['status', 'Pclass', 'Sex', 'SibSp', 'Parch', 'Fare', 'Embarked', 'Age', 'Famsize']
+        c = ['status', 'Pclass', 'Sex', 'SibSp', 'Parch', 'Fare', 'Embarked', 'Age', 'Famsize', 'Nlength']
 
         col1, col2 = st.columns(2)
 
@@ -595,39 +593,39 @@ elif keuze == 'Visualisaties':
         m = folium.Map(location = [45.7833, -41.9167],zoom_start=4)  
         markers = [
             ([41.7267, -49.9483], '''<b>Schipwrak</b><br>
-            Aantal slachtoffers: 424 ''' ,'shipwreck.jpg'),
-            ([41.7833, -49.9167], '''<b>Ijsberg</b>''','iceberg.jpg'),
+            Aantal slachtoffers: 424 ''' ,'shipwreck.png'),
+            ([41.7833, -49.9167], '''<b>Ijsberg</b>''','iceberg.png'),
             ([50.8965, -1.3968], '''<b>Southampton</b><br>
             Aantal bijgekomen passagiers: 646<br>
             Gemiddelde fare: $27.08<br>
             Meest voorkomende klasse: 3<br>
-            Gemiddelde leeftijd: 29.2 jaar''', 'port.jpg'),
+            Gemiddelde leeftijd: 29.2 jaar''', 'port.png'),
             ([49.6469, -1.6222], '''<b>Cherbourg</b><br>
             Aantal bijgekomen passagiers: 168<br>
             Gemiddelde fare: $59.95<br>
             Meest voorkomende klasse: 1<br>
-            Gemiddelde leeftijd: 30.2 jaar''', 'port.jpg'),
+            Gemiddelde leeftijd: 30.2 jaar''', 'port.png'),
             ([51.85, -8.30], '''<b>Queenstown</b><br>
             Aantal bijgekomen passagiers: 77<br>
             Gemiddelde fare: $13.28<br>
             Meest voorkomende klasse: 3<br>
-            Gemiddelde leeftijd: 28 jaar''', 'port.jpg'),
+            Gemiddelde leeftijd: 28 jaar''', 'port.png'),
             ([40.6677, -74.0407], '''<b>New York</b><br>
             Geplande aankomstlocatie Titanic<br>
-            Aankomstlocatie overlevenden''', 'port.jpg'),
+            Aankomstlocatie overlevenden''', 'port.png'),
             ([41.1972, -61.9945], '''<b>Reddingsboot</b><br>
             Overlevenden gered: 467<br>
             Gebracht naar: New York
-            ''', 'lifeboat.jpg'),
+            ''', 'lifeboat.png'),
             ([44.65, -63.57],'''<b>Halifax</b><br>
-            Aankomstlocatie slachtoffers''', 'port.jpg'),
+            Aankomstlocatie slachtoffers''', 'port.png'),
             ([43.1884,-56.7592],'''<b>Vervoer slachtoffers</b><br>
-            Aantal slachtoffers: 424''', 'ship.jpg' ),
+            Aantal slachtoffers: 424''', 'ship.png' ),
             ([46.8167,-29.1084], '''<b>Titanic</b><br>
             Aantal passagiers: 889<br>
             Gemiddelde fare: 32.2<br>
             Meest voorkomende klasse: 3<br>
-            Gemiddelde leeftijd: 29.4''', 'pngimg.com - titanic_PNG31.jpg')
+            Gemiddelde leeftijd: 29.4''', 'pngimg.com - titanic_PNG31.png')
         ]
         v_crash = [[50.8965, -1.3968], [49.6469, -1.6222], [51.85, -8.30], [41.7833, -49.9167]  ]
         n_crash = [[41.7833, -49.9167],[40.6677, -74.0407]]
@@ -719,7 +717,7 @@ elif keuze == 'Voorspelling':
 
         # === Titel ===
         st.header("Modelresultaten Titanic Random Forest")
-        st.markdown("Hieronder zie je de prestaties van het model op de validatieset.")
+        st.markdown("Hieronder zie je de prestaties van het model op de gemaakte testset.")
 
         # === 1️⃣ Accuracy tonen ===
         st.metric(label="Accuracy", value=f"{acc:.3f}")
@@ -761,7 +759,7 @@ elif keuze == 'Voorspelling':
         - Precision laat zien dat wanneer het model voorspelt dat iemand **overleefde**, het daar meestal gelijk in heeft.  
         """
         )
-        st.markdown("""De score op de gemaakte test-set is redelijk goed met 0.838, echter is de score op kaggle veel slechter met een score later dan 0.3.  
+        st.markdown("""De score op de gemaakte test-set is redelijk goed met 0.838, echter is de score op kaggle veel slechter met een score lager dan 0.3.  
                     Dit kan komen door overfitting op de train data, maar de score van 0.838 zegt daar iets anders over. """)
         
     else:
@@ -792,7 +790,7 @@ elif keuze == 'Voorspelling':
 
         # === Titel ===
         st.header("Resultaten Logistische Regressie")
-        st.markdown("Hieronder zie je hoe goed het model de overlevingskansen voorspelt.")
+        st.markdown("Hieronder zie je hoe goed het model de gemaakte testset voorspelt.")
 
         # === 1️⃣ Accuracy ===
         st.metric(label="Accuracy", value=f"{acc:.3f}")
